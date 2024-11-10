@@ -19,5 +19,6 @@ packages = ["src/tf_module"]
 
 [dependency-groups]
 dev = [
+    "pexpect>=4.9.0",
     "ruff~=0.7.2",
 ]

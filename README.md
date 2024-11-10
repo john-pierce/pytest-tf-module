@@ -15,7 +15,7 @@ This took inspiration from (See the [FAQ](#faq)):
 
 Features:
 
-- [ ] Display terraform output in real time
+- [X] Display terraform output in real time
 - [ ] Allow skipping of
   - [ ] `init`
   - [ ] `apply`
