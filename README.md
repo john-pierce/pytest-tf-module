@@ -3,7 +3,7 @@ pytest-tf-module
 
 pytest plugin for end to end testing of terraform modules.
 
-The pytest-tf-module plugin provides several fixtures for testing terraform
+The tf-module plugin provides several fixtures for testing terraform
 modules by testing the deployed resources using examples. It aims to aid in
 incremental development of a module by building out and testing a functional
 example.
