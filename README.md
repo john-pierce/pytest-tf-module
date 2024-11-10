@@ -15,7 +15,7 @@ This took inspiration from (See the [FAQ](#faq)):
 
 Features:
 
-- [X] Display terraform output in real time
+- [x] Display terraform output in real time
 - [ ] Allow skipping of
   - [ ] `init`
   - [ ] `apply`
@@ -30,6 +30,51 @@ Install with pip directly from GitHub:
 ```shell
 pip install https://github.com/john-pierce/pytest-tf-module
 ```
+
+## Development
+
+### Requirements
+
+* Python >= 3.10
+* [uv](https://docs.astral.sh/uv/)
+* GNU Make >= 3.81
+
+### Environment setup
+
+#### Create and activate a venv
+
+You only need to do this part once:
+
+```shell
+python -m venv .venv
+```
+
+
+It needs to be activated in every shell you're working with the project in:
+
+```shell
+. .venv/bin/activate
+````
+
+> [!IMPORTANT]
+> Every command from here assumes this venv is active in your shell
+ 
+
+#### Install uv and development requirements
+
+```pip install uv && uv sync --all-extras```
+
+
+#### Pre commit
+
+```pre-commit install```
+
+### Tests
+
+#### Running tests
+
+```pytest```
+
 
 ## FAQ
 
