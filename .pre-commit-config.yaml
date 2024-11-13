@@ -1,6 +1,16 @@
 repos:
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.7.3
+  rev: 6a19e69c83fd6e3a3ffdd5e32a40e35c37b02218  # v0.7.3
   hooks:
     - id: ruff
+      args:
+        - --no-fix
     - id: ruff-format
+      args:
+        - --check
+- repo: https://github.com/antonbabenko/pre-commit-terraform
+  rev: e0322737dccad136b751416f9e45d9980fe18435  # v1.9.62
+  hooks:
+    - id: terraform_fmt
+      args:
+        - --args=-check
