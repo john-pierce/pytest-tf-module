@@ -23,6 +23,67 @@ Features:
 - [ ] Flight recorder (caching)
   - [ ] Automatic invalidation
 
+## Quick Start
+
+Install from GitHub with
+`pip install https://github.com/john-pierce/pytest-tf-module`.
+
+
+### Specify Example Locations
+
+Use the example_path fixture at the test package level:
+
+```
+.
+├── pytest.ini     <───── May be empty, used to establish the project root
+├── examples
+│   ├── quick_start          <───── Name of the example
+│   │   ├── main.tf
+:   :   :
+├── tests
+│   ├── quick_start          <───── This name doesn't matter
+│   │   ├── __init__.py
+│   │   ├── conftest.py
+│   │   ├── test_features.py
+:   :   :
+```
+
+#### Establish the path to your example in your test package:
+
+```python
+# tests/quick_start/conftest.py
+import pytest
+
+# The example_path fixture must be "package" scoped.
+@pytest.fixture(scope="package")
+def example_path(pytestconfig):
+    return pytestconfig.rootpath / "examples" / "quick_start"
+
+# You can also set terraform variables here.
+@pytest.fixture(scope="package")
+def terraform_vars():
+  return {
+    "pass_through": "QuickStart",
+  }
+```
+
+#### Write your tests:
+
+```python
+# tests/complete/test_start.py
+
+def test_passthrough(tf_outputs, tf_vars):
+    assert tf_outputs["pass_through"] == tf_vars["pass_through"]
+```
+
+#### Run your tests (from the project root):
+
+```shell
+$ pytest
+
+# Placeholder for output after the example test is finished.
+```
+
 ### Installation
 
 Install with pip directly from GitHub:
