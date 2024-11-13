@@ -3,7 +3,13 @@ import pytest
 
 @pytest.fixture(autouse=True)
 def use_plugin(pytester):
-    pytester.plugins.append("tf-module.plugin")
+    # Appending to pytester.plugins breaks PyCharm's debugger.
+    pytester.makeini(
+        """
+        [pytest]
+        addopts = -p tf_module.plugin
+        """
+    )
 
 
 pytest_plugins = ["pytester"]
