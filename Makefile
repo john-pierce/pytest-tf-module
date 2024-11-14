@@ -4,7 +4,7 @@ format: ruff_format ruff_isort terraform_fmt
 
 check: ruff_check mypy
 
-test: pytest check
+test: pytest_all check
 
 ruff_format:
 	ruff format src tests
@@ -25,8 +25,11 @@ ruff_fix:
 mypy:
 	mypy src
 
-pytest:
-	pytest
+pytest: 
+	hatch test
+
+pytest_all:
+	hatch test -a
 
 build:
 	uv build

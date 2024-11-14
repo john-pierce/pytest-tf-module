@@ -3,6 +3,7 @@ from collections import namedtuple
 import pytest
 
 
+@pytest.mark.filterwarnings("ignore:.*multi-threaded.*forkpty:DeprecationWarning")
 def test_terraform_output_should_be_shown_in_realtime(
     scroll_detector, scrolling_runner
 ):
