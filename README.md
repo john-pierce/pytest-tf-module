@@ -11,17 +11,24 @@ example.
 This took inspiration from (See the [FAQ](#faq)):
  * [Terratest](https://terratest.gruntwork.io/)
  * [tftest](https://pypi.org/project/tftest/)
- * [tftest](https://pypi.org/project/pytest-terraform/)
+ * [pytest-terraform](https://pypi.org/project/pytest-terraform/)
 
 Features:
 
+This plugin focuses only on the essentials of running Terraform. It does not
+provide helpers for higher level functionality or access to Terraform
+internals.
+
 - [x] Display terraform output in real time
-- [ ] Allow skipping of
-  - [ ] `init`
+  - [x] `init`
   - [ ] `apply`
   - [ ] `destroy`
+  - [ ] `output`
+  - [ ] Allow skipping of each step
 - [ ] Flight recorder (caching)
   - [ ] Automatic invalidation
+- [ ] Idempotency validation
+
 
 ## Quick Start
 
