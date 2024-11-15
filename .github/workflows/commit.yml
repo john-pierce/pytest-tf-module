@@ -1,0 +1,25 @@
+---
+name: Commit tests for pytest-tf-module
+
+on:
+  push:
+    branches:
+      - main
+      - gh_workflow
+
+permissions:
+  contents: read
+
+jobs:
+    test:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - name: Install uv
+          uses: astral-sh/setup-uv@v3
+          with:
+            version: "0.5.2"
+        - name: run checks
+          run: uv run make check
+        - name: run tests
+          run: uv run make -j $(nproc) ci-test-all

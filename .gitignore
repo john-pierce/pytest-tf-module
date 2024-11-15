@@ -1,5 +1,5 @@
 .idea
 .python-version
 .venv
-./dist/
+dist/
 __pycache__/
