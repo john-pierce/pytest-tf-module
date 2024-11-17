@@ -13,6 +13,11 @@ package = true
 [tool.pytest.ini_options]
 norecursedirs = "scenarios/quick_start_example/*"
 addopts = ["--import-mode=importlib"]
+markers = [
+    "acc: Potentially slower acceptance tests"
+]
+
+
 
 [build-system]
 requires = ["hatchling"]

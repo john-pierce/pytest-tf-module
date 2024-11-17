@@ -1,7 +1,7 @@
 pytest-tf-module
 ----------------
 
-pytest plugin for end to end testing of terraform modules.
+pytest plugin for end-to-end testing of terraform modules.
 
 The tf-module plugin provides several fixtures for testing terraform
 modules by testing the deployed resources using examples. It aims to aid in
@@ -91,6 +91,7 @@ $ pytest
 # Placeholder for output after the example test is finished.
 ```
 
+
 ### Installation
 
 Install with pip directly from GitHub:
@@ -98,50 +99,6 @@ Install with pip directly from GitHub:
 ```shell
 pip install https://github.com/john-pierce/pytest-tf-module
 ```
-
-## Development
-
-### Requirements
-
-* Python >= 3.10
-* [uv](https://docs.astral.sh/uv/)
-* GNU Make >= 3.81
-
-### Environment setup
-
-#### Create and activate a venv
-
-You only need to do this part once:
-
-```shell
-python -m venv .venv
-```
-
-
-It needs to be activated in every shell you're working with the project in:
-
-```shell
-. .venv/bin/activate
-````
-
-> [!IMPORTANT]
-> Every command from here assumes this venv is active in your shell
- 
-
-#### Install uv and development requirements
-
-```pip install uv && uv sync --all-extras```
-
-
-#### Pre commit
-
-```pre-commit install```
-
-### Tests
-
-#### Running tests
-
-```pytest```
 
 
 ## FAQ

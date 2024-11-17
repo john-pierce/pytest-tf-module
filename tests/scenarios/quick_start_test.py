@@ -3,6 +3,7 @@ import shutil
 import pytest
 
 
+@pytest.mark.acc
 @pytest.mark.xfail(strict=True)
 def test_can_run_quick_start_from_readme_instructions(
     module_test_runner, quickstart_example
