@@ -1,4 +1,5 @@
 import logging
+import os
 import subprocess
 from pathlib import Path
 
@@ -34,7 +35,9 @@ class TFExecutionError(Exception):
     pass
 
 
-def run_terraform_command(command: str, workdir: str | Path | None = None) -> str:
+def run_terraform_command(
+    command: str, workdir: str | Path | None = None, tf_args: list[str] | None = None
+) -> str:
     """
     Run a terraform command with optional extra arguments.
     :param command: The command to run
@@ -43,8 +46,17 @@ def run_terraform_command(command: str, workdir: str | Path | None = None) -> st
     """
     cwd = str(workdir) if workdir else None
 
+    run_env = os.environ.copy()
+    if "TF_INPUT" not in os.environ:
+        run_env["TF_INPUT"] = "0"
+
+    run_env["TF_IN_AUTOMATION"] = "1"
+
+    cmd_args = tf_args or []
+
     process = subprocess.Popen(
-        ["terraform"] + command.split(),
+        ["terraform"] + command.split() + cmd_args,
+        env=run_env,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
@@ -75,5 +87,14 @@ def run_terraform_command(command: str, workdir: str | Path | None = None) -> st
 @pytest.fixture(scope="package")
 def tf_init(example_path: str | Path):
     result = run_terraform_command("init", workdir=example_path)
+
+    return result
+
+
+@pytest.fixture(scope="package")
+def tf_apply(tf_init, example_path: str | Path) -> str:
+    result = run_terraform_command(
+        "apply", tf_args=["-auto-approve"], workdir=example_path
+    )
 
     return result

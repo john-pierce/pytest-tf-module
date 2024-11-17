@@ -1,7 +1,6 @@
 import pytest
 
 
-@pytest.mark.xfail(strict=True)
 @pytest.mark.usefixtures("minimal_tf_config_dir", "minimal_test_conftest")
 def test_tf_apply_applies_configuration(pytester):
     """ "
@@ -21,12 +20,11 @@ def test_tf_apply_applies_configuration(pytester):
 
     result.assert_outcomes(passed=1)
 
-    result.stdout.fnmatch_lines(["pytest-tf-module FAIL"])
+    result.stdout.fnmatch_lines(["*Apply complete!*"])
 
     assert (pytester.path / "terraform.tfstate").exists() is True
 
 
-@pytest.mark.xfail(strict=True)
 @pytest.mark.usefixtures("minimal_tf_config_dir", "minimal_test_conftest")
 def test_tf_apply_initializes_first(pytester):
     test = """
