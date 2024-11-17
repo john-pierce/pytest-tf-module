@@ -12,4 +12,22 @@ def use_plugin(pytester):
     )
 
 
+@pytest.fixture
+def minimal_tf_config_dir(pytester):
+    pytester.makefile(".tf", 'resource "null_resource" "this" {}')
+
+
+@pytest.fixture
+def minimal_test_conftest(pytester):
+    conftest = """
+    import pytest
+    
+    @pytest.fixture(scope="package")
+    def example_path():
+        return "{pytester_path}"
+    """.format(pytester_path=pytester.path)
+
+    pytester.makeconftest(conftest)
+
+
 pytest_plugins = ["pytester"]
