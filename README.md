@@ -91,14 +91,22 @@ $ pytest
 # Placeholder for output after the example test is finished.
 ```
 
+## Fixtures
 
-### Installation
+Because examples are tested at the package level, all fixtures have the
+"package" scope unless otherwise noted.
 
-Install with pip directly from GitHub:
+### User defined fixtures
 
-```shell
-pip install https://github.com/john-pierce/pytest-tf-module
-```
+These are fixtures that can be defined to influence the behavior of the
+plugin. Of these only `example_path` is mandatory.
+
+#### example_path
+
+`example_path` must be defined for each test package. It should return a
+path to Terraform's `path.root` of the example. The path may be absolute or
+relative to the project's root (see
+[the quick start example](#establish-the-path-to-your-example-in-your-test-package)).
 
 
 ## FAQ
