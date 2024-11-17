@@ -1,4 +1,4 @@
-all: format check
+all: check format
 
 format: ruff-format ruff-isort terraform-fmt
 
@@ -6,10 +6,10 @@ check: ruff-check mypy
 
 test: pytest-all check
 
-ruff-format:
+ruff-format: ruff-fix ruff-isort
 	ruff format src tests
 
-ruff-isort:
+ruff-isort: ruff-fix
 	ruff check --select I --fix src tests
 
 terraform-fmt:
