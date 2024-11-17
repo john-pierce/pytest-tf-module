@@ -109,6 +109,20 @@ relative to the project's root (see
 [the quick start example](#establish-the-path-to-your-example-in-your-test-package)).
 
 
+### Plugin provided fixtures
+
+These fixtures execute Terraform commands and return a string containing the
+output from stdout of the `terraform` command.
+
+If any command fails it will generate a `TFExecutionError` and stderr will
+be logged _after_ terraform exits.
+
+### tf_init
+
+`tf_init` 
+
+
+
 ## FAQ
 
 #### What are examples?

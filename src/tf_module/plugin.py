@@ -30,6 +30,10 @@ def example_path() -> Path:
 # End fixtures to override
 
 
+class TFExecutionError(Exception):
+    pass
+
+
 def run_terraform_command(command: str, workdir: str | Path | None = None) -> str:
     """
     Run a terraform command with optional extra arguments.
@@ -65,7 +69,7 @@ def run_terraform_command(command: str, workdir: str | Path | None = None) -> st
         return "".join(output_lines)
     else:
         logger.error(err)
-        raise RuntimeError("terraform command failed")
+        raise TFExecutionError("terraform command failed")
 
 
 @pytest.fixture(scope="package")
