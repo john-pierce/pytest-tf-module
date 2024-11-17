@@ -85,7 +85,7 @@ def run_terraform_command(
 
 
 @pytest.fixture(scope="package")
-def tf_init(example_path: str | Path):
+def tf_init(example_path: str | Path) -> str:
     result = run_terraform_command("init", workdir=example_path)
 
     return result
