@@ -44,7 +44,7 @@ def example_name():
 
 
 @pytest.fixture
-def sample_skeleton(pytester, example_name):
+def sample_skeleton(request, pytester, example_name):
     """
     Creates a sample plugin with no tests or conftest.
     """
@@ -69,4 +69,26 @@ def sample_skeleton(pytester, example_name):
         """
         f.write(textwrap.dedent(module_main_tf_content))
 
+    request.getfixturevalue("sample_conftest")
+
     return pytester.path
+
+
+@pytest.fixture
+def sample_conftest(pytester, example_name):
+    """
+    This is intended to be invoked by sample_skeleton, not requested directly.
+
+    Redefine this at the module level to override the default.
+    """
+    conftest_py_path = pytester.path / "tests" / example_name / "conftest.py"
+    with conftest_py_path.open("w") as f:
+        conftest_py_content = f"""
+        import pytest
+        @pytest.fixture(scope="package")
+        def example_path(pytestconfig):
+            return pytestconfig.rootpath / "examples" / "{example_name}"
+        """
+        f.write(textwrap.dedent(conftest_py_content))
+
+    return conftest_py_path

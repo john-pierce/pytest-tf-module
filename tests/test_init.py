@@ -39,7 +39,7 @@ def test_tf_fails_if_example_path_is_unset(pytester):
     result.stdout.fnmatch_lines(["*example_path*"])
 
 
-@pytest.mark.usefixtures("configured_example_path", "tf_init_test")
+@pytest.mark.usefixtures("sample_conftest", "tf_init_test")
 def test_tf_example_path_can_be_relative_to_project_root_or_absolute(
     pytester, example_name
 ):
@@ -62,7 +62,7 @@ def test_tf_example_path_can_be_relative_to_project_root_or_absolute(
     ],
     ids=["relative", "absolute"],
 )
-def configured_example_path(request, sample_skeleton, example_name):
+def sample_conftest(request, sample_skeleton, example_name):
     """
     Crate example test conftest.py with an absolute or relative path.
     """

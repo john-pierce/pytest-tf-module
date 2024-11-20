@@ -126,8 +126,6 @@ fixture.
 Only the local backend is supported.
 
 ### tf_apply 
-> [!CAUTION]
-> This is 
 
 Requesting the `tf_apply` fixture will cause `terraform apply` to be run in
 the example directory. `tf_apply` requests `tf_init` causing
@@ -139,6 +137,11 @@ Variables can be passed to terraform by defining the
 By default, on teardown, `tf_apply` will request [tf_destroy](#tf_destroy)
 which will destroy resources from the example configuration.
 
+### tf_destroy
+
+Requesting the `tf_destroy` fixture causes `terraform destroy` to be run in
+the example directory. Usually this will be explicitly requested by
+`tf_apply` during the teardown phase.
 
 ## FAQ
 
