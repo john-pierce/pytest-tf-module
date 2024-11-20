@@ -1,3 +1,7 @@
+import random
+import string
+import textwrap
+
 import pytest
 
 
@@ -30,4 +34,39 @@ def minimal_test_conftest(pytester):
     pytester.makeconftest(conftest)
 
 
-pytest_plugins = ["pytester"]
+@pytest.fixture
+def example_name():
+    """
+    Random name to be used as part of a test skeleton
+    :return:
+    """
+    return "".join(random.choices(string.ascii_letters, k=6))
+
+
+@pytest.fixture
+def sample_skeleton(pytester, example_name):
+    """
+    Creates a sample plugin with no tests or conftest.
+    """
+    example_dir = pytester.path / "examples" / example_name
+    example_dir.mkdir(parents=True)
+    example_main_tf_path = example_dir / "main.tf"
+    with example_main_tf_path.open("w") as f:
+        example_main_tf_content = """
+        module "sample" {
+            source = "../.."
+        }
+        """
+        f.write(textwrap.dedent(example_main_tf_content))
+
+    example_tests_dir = pytester.path / "tests" / example_name
+    example_tests_dir.mkdir(parents=True)
+
+    module_main_tf_path = pytester.path / "main.tf"
+    with module_main_tf_path.open("w") as f:
+        module_main_tf_content = """
+        resource "null_resource" "this" {}
+        """
+        f.write(textwrap.dedent(module_main_tf_content))
+
+    return pytester.path

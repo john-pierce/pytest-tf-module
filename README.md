@@ -119,8 +119,11 @@ be logged _after_ terraform exits.
 
 ### tf_init
 
-`tf_init` 
+Requesting the `tf_init` fixture will cause `terraform init` to be run in
+the example directory specified by the [example_path](#example_path)
+fixture.
 
+Only the local backend is supported.
 
 
 ## FAQ
