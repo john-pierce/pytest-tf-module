@@ -150,8 +150,8 @@ Any terraform output will still be logged and printed to stdout.
 
 ### tf_output
 
-Requesting the `tf_output` fixture returns a frozen dictionary representing
-the output of `terraform output`.
+Requesting the `tf_output` fixture returns a dictionary representing the
+output of `terraform output`.
 
 `tf_output` requests `tf_apply` and is often the only fixture needed.
 

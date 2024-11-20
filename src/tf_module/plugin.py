@@ -1,8 +1,10 @@
+import json
 import logging
 import os
 import subprocess
 from collections.abc import Generator
 from pathlib import Path
+from typing import Union
 
 import pytest
 
@@ -30,6 +32,8 @@ def example_path() -> Path:
 
 
 # End fixtures to override
+
+JSONType = Union[str, int, float, bool, None, dict[str, "JSONType"], list["JSONType"]]
 
 
 class TFExecutionError(Exception):
@@ -113,3 +117,10 @@ def tf_destroy(example_path: str | Path) -> Generator[None, None, None]:
     yield
 
     run_terraform_command("destroy", tf_args=["-auto-approve"], workdir=example_path)
+
+
+@pytest.fixture(scope="package")
+def tf_output(tf_apply, example_path: str | Path) -> JSONType:
+    result = run_terraform_command("output", tf_args=["-json"], workdir=example_path)
+
+    return json.loads(result)
