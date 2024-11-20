@@ -148,6 +148,13 @@ It is a dependency of `tf_apply`,
 This fixture returns None because terraform isn't run until terardown.
 Any terraform output will still be logged and printed to stdout.
 
+### tf_output
+
+Requesting the `tf_output` fixture returns a frozen dictionary representing
+the output of `terraform output`.
+
+`tf_output` requests `tf_apply` and is often the only fixture needed.
+
 
 ## FAQ
 
