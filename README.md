@@ -125,6 +125,20 @@ fixture.
 
 Only the local backend is supported.
 
+### tf_apply 
+> [!CAUTION]
+> This is 
+
+Requesting the `tf_apply` fixture will cause `terraform apply` to be run in
+the example directory. `tf_apply` requests `tf_init` causing
+`terraform init` to run prior to applying the example configuration.
+
+Variables can be passed to terraform by defining the
+[tf_variables](#tf_variables) fixture at the package level.
+
+By default, on teardown, `tf_apply` will request [tf_destroy](#tf_destroy)
+which will destroy resources from the example configuration.
+
 
 ## FAQ
 
