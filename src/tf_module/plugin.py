@@ -98,3 +98,12 @@ def tf_apply(tf_init, example_path: str | Path) -> str:
     )
 
     return result
+
+
+@pytest.fixture(scope="package")
+def tf_destroy(example_path: str | Path) -> str:
+    result = run_terraform_command(
+        "destroy", tf_args=["-auto-approve"], workdir=example_path
+    )
+
+    return result

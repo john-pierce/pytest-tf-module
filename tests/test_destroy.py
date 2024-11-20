@@ -14,6 +14,8 @@ def test_destroy_leaves_no_resources(pytester, example_name):
 
     result.assert_outcomes(passed=1)
 
+    result.stdout.fnmatch_lines(["*complete! Resources: 1 destroyed."])
+
     tf_state_path = pytester.path / "examples" / example_name / "terraform.tfstate"
     with tf_state_path.open() as f:
         state = json.load(f)
