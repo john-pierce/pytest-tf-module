@@ -111,8 +111,8 @@ relative to the project's root (see
 
 ### Plugin provided fixtures
 
-These fixtures execute Terraform commands and return a string containing the
-output from stdout of the `terraform` command.
+These fixtures execute Terraform commands and unless otherwise specified,
+return a string containing the output from stdout of the `terraform` command.
 
 If any command fails it will generate a `TFExecutionError` and stderr will
 be logged _after_ terraform exits.
@@ -134,14 +134,20 @@ the example directory. `tf_apply` requests `tf_init` causing
 Variables can be passed to terraform by defining the
 [tf_variables](#tf_variables) fixture at the package level.
 
-By default, on teardown, `tf_apply` will request [tf_destroy](#tf_destroy)
-which will destroy resources from the example configuration.
+By default, `tf_apply` will request [tf_destroy](#tf_destroy) which will destroy
+resources from the example configuration.
 
 ### tf_destroy
 
 Requesting the `tf_destroy` fixture causes `terraform destroy` to be run in
-the example directory. Usually this will be explicitly requested by
-`tf_apply` during the teardown phase.
+the example directory during the teardown phase.
+
+`tf_apply` does not need to be requested in order to request `tf_destroy`.
+It is a dependency of `tf_apply`,
+
+This fixture returns None because terraform isn't run until terardown.
+Any terraform output will still be logged and printed to stdout.
+
 
 ## FAQ
 

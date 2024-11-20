@@ -35,3 +35,24 @@ def test_tf_apply_initializes_first(pytester):
     result = pytester.runpytest_subprocess()
 
     result.stdout.fnmatch_lines(["*Terraform has been successfully initialized!*"])
+
+
+@pytest.mark.usefixtures("minimal_tf_config_dir", "minimal_test_conftest")
+def test_tf_apply_destroys_during_teardown(pytester):
+    """
+    Ensure the tf_destroy fixture's teardown is run to destroy resources after
+    tests run.
+    """
+    test = """
+    def test_tf_apply(tf_apply):
+        assert ", 0 destroyed." in tf_apply
+    """
+    pytester.makepyfile(test)
+    result = pytester.runpytest_subprocess()
+
+    result.assert_outcomes(passed=1)
+
+    result.stdout.fnmatch_lines(["*complete! Resources: 1 destroyed."])
+
+
+pytest_plugins = ["pytester"]

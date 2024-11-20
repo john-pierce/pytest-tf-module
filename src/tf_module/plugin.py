@@ -1,6 +1,7 @@
 import logging
 import os
 import subprocess
+from collections.abc import Generator
 from pathlib import Path
 
 import pytest
@@ -92,7 +93,7 @@ def tf_init(example_path: str | Path) -> str:
 
 
 @pytest.fixture(scope="package")
-def tf_apply(tf_init, example_path: str | Path) -> str:
+def tf_apply(tf_init: str, tf_destroy: None, example_path: str | Path) -> str:
     result = run_terraform_command(
         "apply", tf_args=["-auto-approve"], workdir=example_path
     )
@@ -101,9 +102,14 @@ def tf_apply(tf_init, example_path: str | Path) -> str:
 
 
 @pytest.fixture(scope="package")
-def tf_destroy(example_path: str | Path) -> str:
-    result = run_terraform_command(
-        "destroy", tf_args=["-auto-approve"], workdir=example_path
-    )
+def tf_destroy(example_path: str | Path) -> Generator[None, None, None]:
+    """
+    Calls terraform destroy on teardown after tests are finished.
 
-    return result
+    Because the command runs during teardown, there's nothing to return.
+
+    terraform output is still logged.
+    """
+    yield
+
+    run_terraform_command("destroy", tf_args=["-auto-approve"], workdir=example_path)
