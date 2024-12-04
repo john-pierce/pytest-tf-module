@@ -21,9 +21,9 @@ internals.
 
 - [x] Display terraform output in real time
   - [x] `init`
-  - [ ] `apply`
-  - [ ] `destroy`
-  - [ ] `output`
+  - [x] `apply`
+  - [x] `destroy`
+  - [x] `output`
   - [ ] Allow skipping of each step
 - [ ] Flight recorder (caching)
   - [ ] Automatic invalidation
