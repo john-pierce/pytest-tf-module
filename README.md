@@ -87,8 +87,8 @@ def tf_variables():
 ```python
 # tests/complete/test_start.py
 
-def test_passthrough(tf_outputs, tf_vars):
-    assert tf_outputs["pass_through"] == tf_vars["pass_through"]
+def test_passthrough(tf_outputs, tf_variables):
+    assert tf_outputs["pass_through"] == tf_variables["pass_through"]
 ```
 
 #### Run your tests (from the project root):

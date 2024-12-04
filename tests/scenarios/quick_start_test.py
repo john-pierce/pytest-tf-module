@@ -4,7 +4,6 @@ import pytest
 
 
 @pytest.mark.acc
-@pytest.mark.xfail(strict=True)
 def test_can_run_quick_start_from_readme_instructions(
     module_test_runner, quickstart_example
 ):
@@ -21,9 +20,9 @@ def test_can_run_quick_start_from_readme_instructions(
 @pytest.fixture
 def quickstart_example(request, pytester):
     source = request.path.parent / "quick_start_example"
-    result = pytester.path / "examples" / "quick_start"
+    result = pytester.path
 
-    result.mkdir(parents=True)
+    result.mkdir(parents=True, exist_ok=True)
     shutil.copytree(str(source), str(result), dirs_exist_ok=True)
 
     return result
@@ -40,8 +39,7 @@ class ModuleTestRunner:
         self.pytester = pytester_instance
 
     def run_example_tests(self, *args):
-        self.pytester.makeini("")
-        result = self.pytester.runpytest()
+        result = self.pytester.runpytest_subprocess()
 
         return ModuleTestRunnerResult(result)
 
@@ -56,7 +54,7 @@ class ModuleTestRunnerResult:
         nonzero_outcomes = {
             noun: count for noun, count in self.outcomes.items() if count > 0
         }
-        return nonzero_outcomes.keys() == ["passed"]
+        return list(nonzero_outcomes.keys()) == ["passed"]
 
     @property
     def number_of_tests(self):

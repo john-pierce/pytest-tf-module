@@ -9,7 +9,7 @@ def example_path(pytestconfig):
 
 # You can also set terraform variables here.
 @pytest.fixture(scope="package")
-def tf_vars():
+def tf_variables():
     return {
         "pass_through": "QuickStart",
     }
