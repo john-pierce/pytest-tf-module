@@ -4,7 +4,7 @@ import os
 import subprocess
 from collections.abc import Generator
 from pathlib import Path
-from typing import Union
+from typing import List, Union
 
 import pytest
 
@@ -97,16 +97,20 @@ def tf_init(example_path: str | Path) -> str:
 
 
 @pytest.fixture(scope="package")
-def tf_apply(tf_init: str, tf_destroy: None, example_path: str | Path) -> str:
+def tf_apply(
+    tf_init: str, tf_destroy: None, example_path: str | Path, tf_var_args: List[str]
+) -> str:
     result = run_terraform_command(
-        "apply", tf_args=["-auto-approve"], workdir=example_path
+        "apply", tf_args=["-auto-approve"] + tf_var_args, workdir=example_path
     )
 
     return result
 
 
 @pytest.fixture(scope="package")
-def tf_destroy(example_path: str | Path) -> Generator[None, None, None]:
+def tf_destroy(
+    example_path: str | Path, tf_var_args: List[str]
+) -> Generator[None, None, None]:
     """
     Calls terraform destroy on teardown after tests are finished.
 
@@ -116,7 +120,9 @@ def tf_destroy(example_path: str | Path) -> Generator[None, None, None]:
     """
     yield
 
-    run_terraform_command("destroy", tf_args=["-auto-approve"], workdir=example_path)
+    run_terraform_command(
+        "destroy", tf_args=["-auto-approve"] + tf_var_args, workdir=example_path
+    )
 
 
 @pytest.fixture(scope="package")
@@ -125,3 +131,14 @@ def tf_output(tf_apply, example_path: str | Path) -> JSONType:
 
     outputs = json.loads(result)
     return {k: v["value"] for k, v in outputs.items()}
+
+
+@pytest.fixture(scope="package")
+def tf_variables():
+    return {}
+
+
+@pytest.fixture(scope="package")
+def tf_var_args(tf_variables):
+    args = [var for k, v in tf_variables.items() for var in ("-var", f"{k}={v}")]
+    return args
