@@ -170,6 +170,13 @@ output of `terraform output`. Only the `value` of each output is stored in
 the resulting dictionary. Sensitive values are not treated specially and
 will be available, unmasked, in the returned dictionary.
 
+Objects, maps and lists will be returned as native Python dictionaries and
+lists respectively.
+
+> [!NOTE]
+> Terraform outputs lists as lists of strings, regardless of the element's
+> type. List `tf_output` values are of List[str] type.
+
 `tf_output` requests `tf_apply` and is often the only fixture needed.
 
 

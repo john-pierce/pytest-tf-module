@@ -140,5 +140,14 @@ def tf_variables():
 
 @pytest.fixture(scope="package")
 def tf_var_args(tf_variables):
-    args = [var for k, v in tf_variables.items() for var in ("-var", f"{k}={v}")]
+    args = []
+    for k, v in tf_variables.items():
+        match v:
+            case dict() | list():
+                value = json.dumps(v)
+            case _:
+                value = str(v)
+
+        args += ["-var", f"{k}={value}"]
+
     return args
