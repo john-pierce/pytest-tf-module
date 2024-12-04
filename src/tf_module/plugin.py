@@ -31,6 +31,11 @@ def example_path() -> Path:
     )
 
 
+@pytest.fixture(scope="package")
+def tf_variables():
+    return {}
+
+
 # End fixtures to override
 
 JSONType = Union[str, int, float, bool, None, dict[str, "JSONType"], list["JSONType"]]
@@ -131,11 +136,6 @@ def tf_output(tf_apply, example_path: str | Path) -> JSONType:
 
     outputs = json.loads(result)
     return {k: v["value"] for k, v in outputs.items()}
-
-
-@pytest.fixture(scope="package")
-def tf_variables():
-    return {}
 
 
 @pytest.fixture(scope="package")
