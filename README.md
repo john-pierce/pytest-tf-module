@@ -65,10 +65,18 @@ import pytest
 @pytest.fixture(scope="package")
 def example_path(pytestconfig):
     return pytestconfig.rootpath / "examples" / "quick_start"
+```
 
-# You can also set terraform variables here.
+#### Define variables to be passed to terraform:
+
+```python
+# tests/quick_start/conftest.py
+import pytest
+
+def example_path(pytestconfig): ...
+ 
 @pytest.fixture(scope="package")
-def terraform_vars():
+def tf_variables():
   return {
     "pass_through": "QuickStart",
   }
@@ -105,8 +113,15 @@ plugin. Of these only `example_path` is mandatory.
 
 `example_path` must be defined for each test package. It should return a
 path to Terraform's `path.root` of the example. The path may be absolute or
-relative to the project's root (see
-[the quick start example](#establish-the-path-to-your-example-in-your-test-package)).
+relative to the project's root. See the quick start
+[example_path](#establish-the-path-to-your-example-in-your-test-package).
+
+#### tf_variables
+
+The `tf_variables` fixture can be defined to pass variables to Terraform.
+It should return a dictionary in the form `{ "variable_name": "value" }`.
+See the quick_start [tf_variables](#define-variables-to-be-passed-to-terraform)
+definition.
 
 
 ### Plugin provided fixtures
