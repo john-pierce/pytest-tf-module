@@ -11,7 +11,7 @@ def test_tf_output_returns_outputs_as_dictionary(
     with tests_path.open("w") as f:
         test_content = """
         def test_output(tf_output):
-            assert tf_output["static"]["value"] == "static output"
+            assert tf_output["static"] == "static output"
         """
         f.write(textwrap.dedent(test_content))
 

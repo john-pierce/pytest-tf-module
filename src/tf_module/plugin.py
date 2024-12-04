@@ -123,4 +123,5 @@ def tf_destroy(example_path: str | Path) -> Generator[None, None, None]:
 def tf_output(tf_apply, example_path: str | Path) -> JSONType:
     result = run_terraform_command("output", tf_args=["-json"], workdir=example_path)
 
-    return json.loads(result)
+    outputs = json.loads(result)
+    return {k: v["value"] for k, v in outputs.items()}

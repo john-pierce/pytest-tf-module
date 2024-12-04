@@ -151,7 +151,9 @@ Any terraform output will still be logged and printed to stdout.
 ### tf_output
 
 Requesting the `tf_output` fixture returns a dictionary representing the
-output of `terraform output`.
+output of `terraform output`. Only the `value` of each output is stored in
+the resulting dictionary. Sensitive values are not treated specially and
+will be available, unmasked, in the returned dictionary.
 
 `tf_output` requests `tf_apply` and is often the only fixture needed.
 
