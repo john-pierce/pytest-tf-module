@@ -45,7 +45,7 @@ def test_tf_apply_destroys_during_teardown(pytester):
     """
     test = """
     def test_tf_apply(tf_apply):
-        assert ", 0 destroyed." in tf_apply
+        assert ", 0 destroyed." in tf_apply  # Just look for success
     """
     pytester.makepyfile(test)
     result = pytester.runpytest_subprocess()
@@ -53,6 +53,18 @@ def test_tf_apply_destroys_during_teardown(pytester):
     result.assert_outcomes(passed=1)
 
     result.stdout.fnmatch_lines(["*complete! Resources: 1 destroyed."])
+
+
+@pytest.mark.usefixtures("minimal_tf_config_dir", "minimal_test_conftest")
+def test_skip_apply_skips_tf_apply(pytester):
+    test = """
+    def test_tf_apply(tf_apply):
+        pass
+    """
+    pytester.makepyfile(test)
+    result = pytester.runpytest_subprocess("--skip", "apply")
+
+    result.stdout.no_fnmatch_line("*Apply complete!*")
 
 
 pytest_plugins = ["pytester"]

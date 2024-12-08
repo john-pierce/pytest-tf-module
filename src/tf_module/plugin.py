@@ -10,9 +10,24 @@ import pytest
 
 logger = logging.getLogger("tf-module")
 
+skip_commands = []
+
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--skip",
+        action="append",
+        default=[],
+        help="Skip running terraform <COMMAND>",
+        metavar="COMMAND",
+    )
+
 
 def pytest_configure(config: pytest.Config):
+    global skip_commands
     config.option.log_cli_level = "INFO"
+
+    skip_commands = config.getoption("--skip")
 
 
 # Fixtures to be overridden
@@ -54,6 +69,8 @@ def run_terraform_command(
     :param workdir: The working directory to use
     :return: stdout of the command
     """
+    global skip_commands
+
     cwd = str(workdir) if workdir else None
 
     run_env = os.environ.copy()
@@ -64,34 +81,41 @@ def run_terraform_command(
 
     cmd_args = tf_args or []
 
-    process = subprocess.Popen(
-        ["terraform"] + command.split() + cmd_args,
-        env=run_env,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-        universal_newlines=True,
-        cwd=cwd,
-    )
-
-    output_lines = []
-    while True:
-        output = process.stdout.readline() if process.stdout else ""
-
-        if output == "" and process.poll() is not None:
-            break
-        elif output:
-            logger.info(output.strip())
-            output_lines.append(output)
-
-    _, err = process.communicate()
-    process.wait()
-
-    if process.returncode == 0:
-        return "".join(output_lines)
+    cmd = command.split()
+    tf_cmd = ["terraform"] + cmd + cmd_args
+    if cmd[0] in skip_commands:
+        skip_msg = f"Skipping {' '.join(tf_cmd)}"
+        logger.info(skip_msg)
+        output_lines = [skip_msg + "\n"]
     else:
-        logger.error(err)
-        raise TFExecutionError("terraform command failed")
+        process = subprocess.Popen(
+            tf_cmd,
+            env=run_env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            universal_newlines=True,
+            cwd=cwd,
+        )
+
+        output_lines = []
+        while True:
+            output = process.stdout.readline() if process.stdout else ""
+
+            if output == "" and process.poll() is not None:
+                break
+            elif output:
+                logger.info(output.strip())
+                output_lines.append(output)
+
+        _, err = process.communicate()
+        process.wait()
+
+        if process.returncode != 0:
+            logger.error(err)
+            raise TFExecutionError("terraform command failed")
+
+    return "".join(output_lines)
 
 
 @pytest.fixture(scope="package")
@@ -132,6 +156,9 @@ def tf_destroy(
 
 @pytest.fixture(scope="package")
 def tf_output(tf_apply, example_path: str | Path) -> JSONType:
+    if "output" in skip_commands:
+        return {}
+
     result = run_terraform_command("output", tf_args=["-json"], workdir=example_path)
 
     outputs = json.loads(result)

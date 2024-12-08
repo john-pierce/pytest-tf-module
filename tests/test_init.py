@@ -55,6 +55,12 @@ def test_tf_example_path_can_be_relative_to_project_root_or_absolute(
     )
 
 
+@pytest.mark.usefixtures("sample_conftest", "tf_init_test")
+def test_skip_init_skips_tf_init(pytester, example_name):
+    result = pytester.runpytest_subprocess("--skip", "init")
+    result.stdout.no_fnmatch_line("*Initializing*")
+
+
 @pytest.fixture(
     params=[
         "pathlib.Path('.')",

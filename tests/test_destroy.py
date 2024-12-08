@@ -23,6 +23,13 @@ def test_destroy_leaves_no_resources(pytester, example_name):
     assert state["resources"] == []
 
 
+@pytest.mark.usefixtures("tf_destroy_test")
+def test_skip_destroy_skips_tf_apply(pytester):
+    result = pytester.runpytest_subprocess("--skip", "destroy")
+
+    result.stdout.no_fnmatch_line("*Destroy complete!*")
+
+
 @pytest.fixture
 def tf_destroy_test(pytester, sample_skeleton, example_name):
     tf_destroy_test_content = """

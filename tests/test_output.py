@@ -20,6 +20,23 @@ def test_tf_output_returns_outputs_as_dictionary(
     result.assert_outcomes(passed=1)
 
 
+@pytest.mark.usefixtures("outputs_tf")
+def test_skip_output_skips_tf_output(pytester, sample_skeleton, example_name):
+    tests_path = sample_skeleton / "tests" / example_name / "test_output_1.py"
+    with tests_path.open("w") as f:
+        test_content = """
+        def test_output(tf_output):
+            pass
+        def test_output_is_empty_dict_if_skipped(tf_output):
+            assert tf_output == {}
+        """
+        f.write(textwrap.dedent(test_content))
+
+    result = pytester.runpytest_subprocess("--skip", "output")
+
+    result.stdout.no_fnmatch_line('*"static": {')
+
+
 @pytest.fixture
 def outputs_tf(pytester, sample_skeleton, example_name):
     outputs_tf_path = sample_skeleton / "examples" / example_name / "outputs.tf"
