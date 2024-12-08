@@ -83,11 +83,13 @@ def run_terraform_command(
 
     cmd = command.split()
     tf_cmd = ["terraform"] + cmd + cmd_args
+    cmd_sh = " ".join(tf_cmd)
     if cmd[0] in skip_commands:
-        skip_msg = f"Skipping {' '.join(tf_cmd)}"
+        skip_msg = f"Skipping '{cmd_sh}'"
         logger.info(skip_msg)
         output_lines = [skip_msg + "\n"]
     else:
+        logger.info(f"Running '{cmd_sh}'")
         process = subprocess.Popen(
             tf_cmd,
             env=run_env,
