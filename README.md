@@ -65,6 +65,9 @@ import pytest
 @pytest.fixture(scope="package")
 def example_path(pytestconfig):
     return pytestconfig.rootpath / "examples" / "quick_start"
+
+# Plugin must be explicitly activated
+pytest_plugins = ["tf_module"]
 ```
 
 #### Define variables to be passed to terraform:

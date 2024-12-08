@@ -36,7 +36,7 @@ def scrolling_runner(pytester, scroll_test_path):
     """
     Runs a test that will produce real-time scrolling with the plugin loaded.
     """
-    pytester.makeini("[pytest]\naddopts = -p tf_module.plugin\n")
+    pytester.makeini("[pytest]\naddopts = -p tf_module\n")
 
     with pytester.spawn_pytest(str(scroll_test_path), expect_timeout=2) as child:
         yield child
