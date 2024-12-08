@@ -16,7 +16,7 @@ def test_tf_apply_applies_configuration(pytester):
         pass
     """
     pytester.makepyfile(test)
-    result = pytester.runpytest_subprocess()
+    result = pytester.runpytest_inprocess()
 
     result.assert_outcomes(passed=1)
 
@@ -32,7 +32,7 @@ def test_tf_apply_initializes_first(pytester):
         pass
     """
     pytester.makepyfile(test)
-    result = pytester.runpytest_subprocess()
+    result = pytester.runpytest_inprocess()
 
     result.stdout.fnmatch_lines(["*Terraform has been successfully initialized!*"])
 
@@ -48,7 +48,7 @@ def test_tf_apply_destroys_during_teardown(pytester):
         assert ", 0 destroyed." in tf_apply  # Just look for success
     """
     pytester.makepyfile(test)
-    result = pytester.runpytest_subprocess()
+    result = pytester.runpytest_inprocess()
 
     result.assert_outcomes(passed=1)
 

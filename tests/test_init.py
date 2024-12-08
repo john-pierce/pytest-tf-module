@@ -16,7 +16,7 @@ def test_tf_init_initializes_example_dir(pytester):
         pass
     """
     pytester.makepyfile(test)
-    result = pytester.runpytest_subprocess()
+    result = pytester.runpytest_inprocess()
 
     result.assert_outcomes(passed=1)
 
@@ -32,7 +32,7 @@ def test_tf_fails_if_example_path_is_unset(pytester):
     """
 
     pytester.makepyfile(test)
-    result = pytester.runpytest_subprocess()
+    result = pytester.runpytest_inprocess()
 
     result.assert_outcomes(errors=1)
 
@@ -43,7 +43,7 @@ def test_tf_fails_if_example_path_is_unset(pytester):
 def test_tf_example_path_can_be_relative_to_project_root_or_absolute(
     pytester, example_name
 ):
-    result = pytester.runpytest_subprocess()
+    result = pytester.runpytest_inprocess()
     result.assert_outcomes(passed=1)
 
     result.stdout.no_fnmatch_line("*empty directory!*")

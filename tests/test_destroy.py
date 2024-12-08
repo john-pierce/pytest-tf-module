@@ -10,7 +10,7 @@ def test_destroy_leaves_no_resources(pytester, example_name):
     Test that resources are destroyed by the tf_destroy fixture by interrogating
     the .tfstate file in the example directory.
     """
-    result = pytester.runpytest_subprocess()
+    result = pytester.runpytest_inprocess()
 
     result.assert_outcomes(passed=1)
 
