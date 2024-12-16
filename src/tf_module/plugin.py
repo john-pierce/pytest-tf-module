@@ -15,7 +15,7 @@ skip_commands = []
 
 def pytest_addoption(parser):
     parser.addoption(
-        "--skip",
+        "--skip-tf",
         action="append",
         default=[],
         help="Skip running terraform <COMMAND>",
@@ -27,7 +27,7 @@ def pytest_configure(config: pytest.Config):
     global skip_commands
     config.option.log_cli_level = "INFO"
 
-    skip_commands = config.getoption("--skip")
+    skip_commands = config.getoption("--skip-tf")
 
 
 # Fixtures to be overridden
