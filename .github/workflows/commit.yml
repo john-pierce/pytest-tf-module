@@ -2,6 +2,7 @@
 name: Commit tests for pytest-tf-module
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -19,6 +20,10 @@ jobs:
           uses: astral-sh/setup-uv@v3
           with:
             version: "0.5.2"
+        - name: Install terraform
+          uses: hashicorp/setup-terraform@v3
+          with:
+            terraform_version: "~1.5"
         - name: run checks
           run: uv run make check
         - name: run tests
