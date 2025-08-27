@@ -6,7 +6,15 @@ requires-python = ">=3.10"
 dependencies = [
     "pytest~=8.3.0",
 ]
-
+license = {file = "LICENSE"}
+authors = [
+    {name = "John Pierce", email = "4249701+john-pierce@users.noreply.github.com"},
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
 [tool.uv]
 package = true
 
