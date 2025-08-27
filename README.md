@@ -98,8 +98,15 @@ def test_passthrough(tf_outputs, tf_variables):
 
 ```shell
 $ pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.7, pytest-8.3.3, pluggy-1.5.0
+rootdir: /src/jp/pytest-tf-module
+configfile: pyproject.toml
+collected 1 item
 
-# Placeholder for output after the example test is finished.
+tests/complate/test_start.py .                                           [100%]
+
+============================== 1 passed in 1.90s ===============================
 ```
 
 ## Fixtures
