@@ -150,7 +150,7 @@ fixture.
 
 Only the local backend is supported.
 
-Specifying `--skip init` will skip execution of `terraform init`.
+Specifying `--skip-tf init` will skip execution of `terraform init`.
 
 ### tf_apply 
 
@@ -164,7 +164,7 @@ Variables can be passed to terraform by defining the
 By default, `tf_apply` will request [tf_destroy](#tf_destroy) which will destroy
 resources from the example configuration.
 
-Specifying `--skip apply` will skip the execution of `terraform apply`.
+Specifying `--skip-tf apply` will skip the execution of `terraform apply`.
 
 ### tf_destroy
 
@@ -177,7 +177,7 @@ It is a dependency of `tf_apply`,
 This fixture returns None because terraform isn't run until terardown.
 Any terraform output will still be logged and printed to stdout.
 
-Specifying `--skip destroy` will skip the execution of `terraform destroy`.
+Specifying `--skip-tf destroy` will skip the execution of `terraform destroy`.
 
 ### tf_output
 
@@ -195,7 +195,7 @@ lists respectively.
 
 `tf_output` requests `tf_apply` and is often the only fixture needed.
 
-Specifying `--skip destroy` will skip the execution of `terraform destroy`
+Specifying `--skip-tf destroy` will skip the execution of `terraform destroy`
 and return and empty dictionary.
 
 
