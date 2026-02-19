@@ -200,10 +200,10 @@ Specifying `--skip-tf destroy` will skip the execution of `terraform destroy`
 and return and empty dictionary.
 
 
-### Terraform / Tofu command
+## Terraform / Tofu command
 
 The command used to deploy the configuration, usally `terraform` or `tofu`,
-can be specified in pytest.ini with the `tf_command` ini option (defualts to
+can be specified in pytest.ini with the `tf_command` ini option (defaults to
 `terraform`):
 
 ```
