@@ -24,7 +24,7 @@ internals.
   - [x] `apply`
   - [x] `destroy`
   - [x] `output`
-  - [ ] Allow skipping of each step
+  - [x] Allow skipping of each step
 - [ ] Flight recorder (caching)
   - [ ] Automatic invalidation
 - [ ] Idempotency validation
