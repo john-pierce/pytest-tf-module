@@ -28,7 +28,7 @@ def test_tf_exec_should_log_invocation_parameters(pytester):
     result = pytester.runpytest_subprocess()
 
     result.stdout.re_match_lines(
-        [r".*Running 'terraform apply.* -var pytest_var=pytest_value('|\s.*')$"]
+        [r".*Running '(terraform|tofu) apply.* -var pytest_var=pytest_value('|\s.*')$"]
     )
 
 

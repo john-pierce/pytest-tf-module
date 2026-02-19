@@ -11,6 +11,7 @@ import pytest
 logger = logging.getLogger("tf-module")
 
 skip_commands = []
+tf_command = "terraform"
 
 
 def pytest_addoption(parser):
@@ -22,12 +23,20 @@ def pytest_addoption(parser):
         metavar="COMMAND",
     )
 
+    parser.addini(
+        "tf_command",
+        type="string",
+        default="terraform",
+        help="terraform or tofu executable to use",
+    )
+
 
 def pytest_configure(config: pytest.Config):
-    global skip_commands
+    global skip_commands, tf_command
     config.option.log_cli_level = "INFO"
 
     skip_commands = config.getoption("--skip-tf")
+    tf_command = config.getini("tf_command")
 
 
 # Fixtures to be overridden
@@ -82,7 +91,8 @@ def run_terraform_command(
     cmd_args = tf_args or []
 
     cmd = command.split()
-    tf_cmd = ["terraform"] + cmd + cmd_args
+
+    tf_cmd = [tf_command] + cmd + cmd_args
     cmd_sh = " ".join(tf_cmd)
     if cmd[0] in skip_commands:
         skip_msg = f"Skipping '{cmd_sh}'"
@@ -115,7 +125,7 @@ def run_terraform_command(
 
         if process.returncode != 0:
             logger.error(err)
-            raise TFExecutionError("terraform command failed")
+            raise TFExecutionError(f"{tf_command} command failed")
 
     return "".join(output_lines)
 

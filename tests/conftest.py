@@ -5,13 +5,24 @@ import textwrap
 import pytest
 
 
+@pytest.fixture(params=["tofu", "terraform"])
+def tf_command_name(request):
+    return request.param
+
+
 @pytest.fixture(autouse=True)
-def use_plugin(pytester):
+def use_plugin(tf_command_name, pytester):
+    if tf_command_name:
+        tf_command_line = f"tf_command = {tf_command_name}"
+    else:
+        tf_command_line = ""
+
     # Appending to pytester.plugins breaks PyCharm's debugger.
     pytester.makeini(
-        """
+        f"""
         [pytest]
         addopts = -p tf_module.plugin
+        {tf_command_line}
         """
     )
 

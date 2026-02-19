@@ -28,6 +28,7 @@ internals.
 - [ ] Flight recorder (caching)
   - [ ] Automatic invalidation
 - [ ] Idempotency validation
+- [x] Configurable tofu support
 
 
 ## Quick Start
@@ -198,6 +199,18 @@ lists respectively.
 Specifying `--skip-tf destroy` will skip the execution of `terraform destroy`
 and return and empty dictionary.
 
+
+### Terraform / Tofu command
+
+The command used to deploy the configuration, usally `terraform` or `tofu`,
+can be specified in pytest.ini with the `tf_command` ini option (defualts to
+`terraform`):
+
+```
+# pytest.ini
+[pytest]
+tf_command = terraform
+```
 
 ## FAQ
 

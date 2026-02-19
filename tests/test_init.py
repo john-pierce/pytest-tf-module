@@ -22,7 +22,7 @@ def test_tf_init_initializes_example_dir(pytester):
 
     assert (pytester.path / ".terraform.lock.hcl").exists() is True
 
-    result.stdout.fnmatch_lines(["*Terraform has been successfully initialized!*"])
+    result.stdout.fnmatch_lines(["* has been successfully initialized!*"])
 
 
 def test_tf_fails_if_example_path_is_unset(pytester):

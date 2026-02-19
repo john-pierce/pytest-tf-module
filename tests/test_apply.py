@@ -34,7 +34,7 @@ def test_tf_apply_initializes_first(pytester):
     pytester.makepyfile(test)
     result = pytester.runpytest_inprocess()
 
-    result.stdout.fnmatch_lines(["*Terraform has been successfully initialized!*"])
+    result.stdout.fnmatch_lines(["* has been successfully initialized!*"])
 
 
 @pytest.mark.usefixtures("minimal_tf_config_dir", "minimal_test_conftest")
